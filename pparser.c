@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include "./pparser.h"
 
+// super fast because don't fucking care whitespace trailling
+#define TRIM 0
+
 
 int pparser_parse(char* request, struct parser_t* parser) {
     int idx = 0, i = 0;
@@ -100,21 +103,21 @@ static int pparser_parse_header(char* str, char* name, char* value) {
         return 1;
     }
 
-    // super fast because don't fucking care whitespace trailling
     strncpy(name, str, (int)(sep - str));
     strcpy(value, sep+1);
 
-    // trim data
-    /* int len = strlen(str); */
-    /* int i = 0, l = 0; */
-    /* while (i < len && str[i] == 32) ++i; */
-    /* while (i + l < len && str[i+l] != 32) ++l; */
-    /* strncpy(name, str + i, l-1); */
-    /* name[l-1] = 0; */
+    if (TRIM) {
+        int len = strlen(str);
+        int i = 0, l = 0;
+        while (i < len && str[i] == 32) ++i;
+        while (i + l < len && str[i+l] != 32) ++l;
+        strncpy(name, str + i, l-1);
+        name[l-1] = 0;
 
-    /* i = 0; */
-    /* while (i < (str - sep) && *(sep + i + 1) == 32) ++i; */
-    /* strcpy(value, sep + 1 + i); */
+        i = 0;
+        while (i < (str - sep) && *(sep + i + 1) == 32) ++i;
+        strcpy(value, sep + 1 + i);
+    }
 
     return 0;
 }

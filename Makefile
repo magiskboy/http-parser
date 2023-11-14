@@ -13,14 +13,15 @@ main: main.o pparser.o
 	./main
 
 pparser.o: pparser.c pparser.h
-	${CC} ${CFLAGS} pparser.c pparser.h -c pparser.o
+	${CC} ${CFLAGS} pparser.c pparser.h -c
 
 benchmark.o: benchmark.c
-	${CC} ${CFLAGS} benchmark.c -c benchmark.o
+	${CC} ${CFLAGS} benchmark.c -c
 
 main.o: main.c
-	${CC} ${CFLAGS} main.c -c main.o
+	${CC} ${CFLAGS} main.c -c
 
 clean:
-	rm *.o
-	rm *.gch
+	rm -f *.o
+	rm -f *.gch
+	rm -f benc
